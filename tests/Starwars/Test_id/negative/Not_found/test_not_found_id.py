@@ -1,7 +1,6 @@
 
 import requests
-import json
-import pytest
+
 
 def test_not_found_id():
     url = "https://swapi.dev/api/people/999999999"
