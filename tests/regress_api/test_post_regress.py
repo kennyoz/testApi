@@ -22,4 +22,5 @@ def test_create_user():
     assert "id" in response_data, "Response does not contain 'id'"
     assert response_data["id"] is not None, "Response id should not be None"
     assert "createdAt" in response_data, "Response does not contain 'createdAt'"
+    assert response.elapsed.total_seconds() < 1
 
