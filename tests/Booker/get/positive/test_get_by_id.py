@@ -3,7 +3,7 @@ import json
 import pytest
 
 def test_ge_by_id():
-    url = "https://restful-booker.herokuapp.com/booking/1"
+    url = "https://restful-booker.herokuapp.com/booking/3"
     response = requests.get(url)
     assert response.status_code == 200
 
