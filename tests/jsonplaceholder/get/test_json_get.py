@@ -7,7 +7,7 @@ def test_jsonplaysholder_get():
     response = requests.get(url)
     actual = response.json()
     assert len(actual)>0,"response is empty"
-    expected = {
+    expected={
     "userId": 1,
     "id": 1,
     "title": "delectus aut autem",
