@@ -8,4 +8,4 @@ def test_random():
     assert response.status_code == 200
     actual_data = response.json()
 
-    assert len(actual_data)<0
+    assert len(actual_data)>0
