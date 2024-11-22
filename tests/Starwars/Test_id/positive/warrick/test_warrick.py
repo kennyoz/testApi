@@ -1,6 +1,9 @@
 import requests
+import allure
 
-
+@allure.feature("API Testing")
+@allure.story("GET Request")
+@allure.severity(allure.severity_level.NORMAL)
 def test_warick():
     endpoint = "https://swapi.dev/api/people/30"
     response = requests.get(endpoint)

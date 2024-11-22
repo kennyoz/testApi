@@ -1,12 +1,18 @@
 import requests
+import allure
 
+@allure.feature("API Testing")
+@allure.story("GET Request")
+@allure.severity(allure.severity_level.NORMAL)
 def test_natalie():
-    endpoint = "https://swapi.dev/api/people/5"
-    response = requests.get(endpoint)
-    actual_data = response.json()
-    assert response.status_code==200,f"must be 200 but got{response.status_code}"
-    assert len(actual_data)>0
-    expected_data= {
+    with allure.step("Отправка Get запроса"):
+         endpoint = "https://swapi.dev/api/people/5"
+         response = requests.get(endpoint)
+    with allure.step("Проверка ответа"):
+        actual_data = response.json()
+        assert response.status_code==200,f"must be 200 but got{response.status_code}"
+        assert len(actual_data)>0
+        expected_data= {
         "name": "Leia Organa",
         "height": "150",
         "mass": "49",
@@ -31,4 +37,4 @@ def test_natalie():
         "edited": "2014-12-20T21:17:50.315000Z",
         "url": "https://swapi.dev/api/people/5/"
     }
-    assert expected_data==actual_data,"wrong body data"
+        assert expected_data==actual_data,"wrong body data"

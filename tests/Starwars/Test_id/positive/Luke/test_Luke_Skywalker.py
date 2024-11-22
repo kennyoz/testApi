@@ -1,19 +1,20 @@
 import requests
-import json
-import pytest
+import allure
 
-
+@allure.feature("API Testing")
+@allure.story("GET Request")
+@allure.severity(allure.severity_level.NORMAL)
 def test_luke_skywalker():
-    url = "https://swapi.dev/api/people/1/"
+    with allure.step("Отправка GET запроса"):
+        url = "https://swapi.dev/api/people/1/"
+        response = requests.get(url)
+    with allure.step("Проверка ответа"):
+        assert response.status_code == 200, f"Expected status code 200, but got {response.status_code}"
+        actual_data = response.json()
 
-    response = requests.get(url)
-
-    assert response.status_code == 200, f"Expected status code 200, but got {response.status_code}"
-
-    actual_data = response.json()
 
 
-    expected_data = {
+        expected_data = {
     "name": "Luke Skywalker",
     "height": "172",
     "mass": "77",
@@ -42,5 +43,5 @@ def test_luke_skywalker():
     "edited": "2014-12-20T21:17:56.891000Z",
     "url": "https://swapi.dev/api/people/1/"
 }
-    assert actual_data == expected_data, "API response does not match the expected JSON"
+        assert actual_data == expected_data, "API response does not match the expected JSON"
 

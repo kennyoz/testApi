@@ -1,7 +1,11 @@
 import requests
 import json
 import pytest
+import allure
 
+@allure.feature("API Testing")
+@allure.story("GET Request")
+@allure.severity(allure.severity_level.NORMAL)
 def test_R2_D2():
     url = "https://swapi.dev/api/people/3"
     response = requests.get(url)

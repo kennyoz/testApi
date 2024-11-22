@@ -1,9 +1,11 @@
 from http.client import responses
-
-
+import allure
 import requests
 
 
+@allure.feature("API Testing")
+@allure.story("GET Request")
+@allure.severity(allure.severity_level.NORMAL)
 def test_get_darth_vader():
     url = "https://swapi.dev/api/people/4"
     response = requests.get(url)
