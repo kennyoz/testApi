@@ -1,14 +1,20 @@
 import requests
+import allure
 
-
+@allure.feature("API Testing")
+@allure.story("GET Request")
+@allure.severity(allure.severity_level.BLOCKER)
 def test_get_users():
-    url = "https://reqres.in/api/users"
-    response = requests.get(url)
+    with allure.step("Отправка GET запроса"):
+         url = "https://reqres.in/api/users"
+         response = requests.get(url)
 
-    assert response.status_code == 200, f"Expected status code 200 but got {response.status_code}"
-    response_data = response.json()
-    assert "data" in response_data, "Response JSON does not contain 'data' key"
-    assert len(response_data["data"]) > 0, "User list is empty"
+
+    with allure.step("Проверка ответа"):
+        assert response.status_code == 200, f"Expected status code 200 but got {response.status_code}"
+        response_data = response.json()
+        assert "data" in response_data, "Response JSON does not contain 'data' key"
+        assert len(response_data["data"]) > 0, "User list is empty"
 
     first_user = response_data["data"][0]
     assert "id" in first_user, "does not have 'id'"

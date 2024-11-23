@@ -1,6 +1,9 @@
 import requests
+import allure
 
-
+@allure.feature("API Testing")
+@allure.story("GET Request")
+@allure.severity(allure.severity_level.BLOCKER)
 def test_create_user_with_missing_field():
     url = "https://reqres.in/api/users"
 

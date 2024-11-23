@@ -14,4 +14,4 @@ def test_jsonplaysholder_get():
     "completed": False
 }
     assert response.status_code == 200," Invalid status code"
-    assert actual == expected,"The response body is incorrect"
+    assert actual == expected,"The response body is correct"
