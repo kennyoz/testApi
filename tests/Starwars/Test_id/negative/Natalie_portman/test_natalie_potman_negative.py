@@ -11,7 +11,7 @@ def test_natalie_portman_post_negative():
     with allure.step("POST to endpoint"):
         response = requests.post(endpoint)
     with allure.step("response comparison"):
-        data = response.json()
+
         assert response.status_code == 405,f"must be 405 but got {response.status_code}"
         expected = {
                 "detail": "Method 'POST' not allowed."
