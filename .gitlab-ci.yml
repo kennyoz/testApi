@@ -13,7 +13,7 @@ install_dependencies:
 run_tests:
   stage: test
   script:
-    - pytest --alluredir=allure-results test_api.py
+    - pytest --alluredir=allure-results
   artifacts:
     paths:
       - allure-results/
