@@ -1,0 +1,27 @@
+# .gitlab-ci.yml
+
+stages:
+  - install
+  - test
+  - report
+
+install_dependencies:
+  stage: install
+  script:
+    - pip install -r requirements.txt
+
+run_tests:
+  stage: test
+  script:
+    - pytest --alluredir=allure-results test_api.py
+  artifacts:
+    paths:
+      - allure-results/
+
+generate_report:
+  stage: report
+  script:
+    - allure generate allure-results -o allure-report --clean
+  artifacts:
+    paths:
+      - allure-report/
