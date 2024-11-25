@@ -24,7 +24,7 @@ def test_natalie_portman_post_negative():
 @allure.tag("NEGATIVE")
 @allure.severity(allure.severity_level.MINOR)
 def test_natalie_portman_put_negative():
-    with allure.step("POST_to_url"):
+    with allure.step("PUT_to_url"):
          response = requests.put(endpoint)
          response.status_code==405,f"must be 405 but got{response.status_code}"
     with allure.step("response comparison"):
@@ -40,7 +40,7 @@ def test_natalie_portman_put_negative():
 @allure.tag("NEGATIVE")
 @allure.severity(allure.severity_level.MINOR)
 def test_natalie_portman_delete_negative():
-    with allure.step("POST_to_url"):
+    with allure.step("DELETE_to_url"):
          response = requests.delete(endpoint)
          response.status_code==405,f"must be 405 but got{response.status_code}"
     with allure.step("response comparison"):
