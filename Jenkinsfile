@@ -13,6 +13,9 @@ pipeline {
                     // Установка Python и pip (если не установлены)
                     sh 'which python3 || (sudo apt update && sudo apt install -y python3 python3-pip)'
 
+                    // Установка wget (если не установлен)
+                    sh 'which wget || (sudo apt update && sudo apt install -y wget)'
+
                     // Установка Python зависимостей
                     sh 'pip3 install -r requirements.txt'
 
@@ -55,3 +58,4 @@ pipeline {
         }
     }
 }
+
