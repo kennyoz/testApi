@@ -2,60 +2,69 @@ pipeline {
     agent any
 
     environment {
-        ALLURE_HOME = "${WORKSPACE}/allure-2.13.5"
-        PATH = "${ALLURE_HOME}/bin:${env.PATH}"
+        VENV_PATH = 'venv'
+        ALLURE_RESULTS = 'allure-results'
+        ALLURE_REPORT = 'allure-report'
     }
 
     stages {
-        stage('Install Dependencies') {
+        stage('Checkout') {
             steps {
-                script {
-                    // Установка Python и pip (если не установлены)
-                    sh 'which python3 || (sudo apt update && sudo apt install -y python3 python3-pip)'
+                echo 'Checking out code...'
+                checkout scm
+            }
+        }
 
-                    // Установка wget (если не установлен)
-                    sh 'which wget || (sudo apt update && sudo apt install -y wget)'
-
-                    // Установка Python зависимостей
-                    sh 'pip3 install -r requirements.txt'
-
-                    // Установка Allure Commandline
-                    sh 'wget https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.13.5/allure-commandline-2.13.5.tgz'
-                    sh 'tar -zxvf allure-commandline-2.13.5.tgz'
-                }
+        stage('Setup Python Environment') {
+            steps {
+                echo 'Setting up virtual environment...'
+                sh '''
+                    python3 -m venv ${VENV_PATH}
+                    source ${VENV_PATH}/bin/activate
+                    pip install --upgrade pip
+                    if [ -f requirements.txt ]; then
+                        pip install -r requirements.txt
+                    fi
+                '''
             }
         }
 
         stage('Run Tests') {
             steps {
-                script {
-                    // Запуск тестов с использованием pytest и сохранение результатов в allure-results
-                    sh 'pytest --alluredir=allure-results test_api.py'
-                }
+                echo 'Running tests...'
+                sh '''
+                    source ${VENV_PATH}/bin/activate
+                    pytest --alluredir=${ALLURE_RESULTS}
+                '''
             }
         }
 
         stage('Generate Allure Report') {
             steps {
-                script {
-                    // Генерация Allure отчета
-                    sh 'allure generate allure-results -o allure-report --clean'
-                }
+                echo 'Generating Allure report...'
+                sh '''
+                    /opt/homebrew/bin/allure generate ${ALLURE_RESULTS} -c -o ${ALLURE_REPORT}
+                '''
             }
-            post {
-                always {
-                    // Архивирование Allure отчета
-                    archiveArtifacts artifacts: 'allure-report/**', allowEmptyArchive: true
-                }
+        }
+
+        stage('Publish Allure Report') {
+            steps {
+                allure includeProperties: false, jdk: '', results: [[path: "${ALLURE_RESULTS}"]]
             }
         }
     }
 
     post {
         always {
-            // Очистка рабочей директории
+            echo 'Cleaning up workspace...'
             cleanWs()
+        }
+        success {
+            echo 'Build completed successfully!'
+        }
+        failure {
+            echo 'Build failed. Check logs for details.'
         }
     }
 }
-
