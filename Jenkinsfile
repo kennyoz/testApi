@@ -10,8 +10,11 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
+                    // Установка Python и pip (если не установлены)
+                    sh 'which python3 || (sudo apt update && sudo apt install -y python3 python3-pip)'
+
                     // Установка Python зависимостей
-                    sh 'pip install -r requirements.txt'
+                    sh 'pip3 install -r requirements.txt'
 
                     // Установка Allure Commandline
                     sh 'wget https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.13.5/allure-commandline-2.13.5.tgz'
@@ -24,7 +27,7 @@ pipeline {
             steps {
                 script {
                     // Запуск тестов с использованием pytest и сохранение результатов в allure-results
-                    sh 'pytest --alluredir=allure-results'
+                    sh 'pytest --alluredir=allure-results test_api.py'
                 }
             }
         }
